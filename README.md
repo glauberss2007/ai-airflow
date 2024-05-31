@@ -63,9 +63,11 @@ A DAG is a collection of all the tasks you want to run, organized in a way that 
 
 ![image](https://github.com/glauberss2007/ai-airflow/assets/22028539/db655bcf-2983-403c-abf2-24242bff5e98)
 
+Standalone installation:
+
 ```
 # Create a new directory for Airflow training and navigate into it
-mkdir airflow-training && cd airflow-training
+mkdir airflow-project && cd airflow-project
 
 # Create a Python virtual environment named 'airflow-venv'
 python3 -m venv airflow-venv
@@ -102,7 +104,6 @@ airflow standalone
 
 ![image](https://github.com/glauberss2007/ai-airflow/assets/22028539/c9f13339-a812-4336-b228-61288e8acdaf)
 
-Composer installation:
 
 ```
 # Append the current user's UID to the .env file for Docker to use

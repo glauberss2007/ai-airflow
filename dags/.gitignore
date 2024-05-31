@@ -1,0 +1,6 @@
+*__py*
+.git
+.vscode
+airflow_settings.yaml
+logs/
+airflow-project/
