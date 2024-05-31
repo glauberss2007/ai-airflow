@@ -6,12 +6,17 @@ This repository contains an implementation of a data pipeline using Apache Airfl
 
 Apache Airflow is a powerful tool for orchestrating complex computational workflows. It uses Directed Acyclic Graphs (DAGs) to manage task dependencies and execution order. This README provides an overview of Airflow's components, including the web server, scheduler, executor, worker, metadata database, and triggerer, along with detailed examples and architectural diagrams for both single-node and multi-node setups.
 
+![image](https://github.com/glauberss2007/ai-airflow/assets/22028539/e44cefe0-6ceb-49ad-ab9f-9023ea4a72af)
+
+
 ## Prerequisites
 
 
 ## Directed Acyclic Graph (DAG)
 
 A DAG is a collection of all the tasks you want to run, organized in a way that reflects their relationships and dependencies.
+
+![image](https://github.com/glauberss2007/ai-airflow/assets/22028539/fa903d7e-8085-4983-b667-ad1a17429bee)
 
 - **DAG**: A collection of tasks with directional dependencies.
 - **Operator**: Describes a single task in your pipeline.
@@ -56,6 +61,7 @@ A DAG is a collection of all the tasks you want to run, organized in a way that 
 
 #### Single Node
 
+![image](https://github.com/glauberss2007/ai-airflow/assets/22028539/db655bcf-2983-403c-abf2-24242bff5e98)
 
 ```
 # Create a new directory for Airflow training and navigate into it
@@ -92,8 +98,9 @@ cp ../dags/example_dag.py dags/
 airflow standalone
 ```
 
-
 #### Multi Node
+
+![image](https://github.com/glauberss2007/ai-airflow/assets/22028539/c9f13339-a812-4336-b228-61288e8acdaf)
 
 Composer installation:
 
