@@ -104,16 +104,82 @@ airflow standalone
 
 ![image](https://github.com/glauberss2007/ai-airflow/assets/22028539/c9f13339-a812-4336-b228-61288e8acdaf)
 
+This repository contains a `docker-compose.yml` configuration to set up an Apache Airflow environment using Docker Compose. This setup includes all necessary services and their dependencies to run Airflow smoothly. It includes:
+
+- **x-airflow-common:**
+  - **Image:** Uses the specified Airflow image (`apache/airflow:2.9.1` by default).
+  - **Environment Variables:** Configures the Airflow executor, database connection, Celery backend, broker URL, and other essential settings.
+  - **Volumes:** Mounts local directories for DAGs, logs, configs, and plugins.
+  - **Dependencies:** Requires Redis and PostgreSQL services to be healthy before starting.
+
+- **PostgreSQL (`postgres`):**
+  - **Image:** `postgres:13`
+  - **Environment Variables:** Sets the database user, password, and database name.
+  - **Volumes:** Stores PostgreSQL data.
+  - **Healthcheck:** Checks the availability of the PostgreSQL service.
+
+- **Redis (`redis`):**
+  - **Image:** `redis:7.2-bookworm`
+  - **Expose:** Exposes port 6379.
+  - **Healthcheck:** Checks the availability of the Redis service.
+
+- **Airflow Webserver (`airflow-webserver`):**
+  - **Extends:** `x-airflow-common`
+  - **Command:** Starts the webserver.
+  - **Ports:** Maps port 8080.
+  - **Healthcheck:** Checks the health of the webserver.
+  - **Depends On:** Depends on `airflow-init` service to complete successfully.
+
+- **Airflow Scheduler (`airflow-scheduler`):**
+  - **Extends:** `x-airflow-common`
+  - **Command:** Starts the scheduler.
+  - **Healthcheck:** Checks the health of the scheduler.
+  - **Depends On:** Depends on `airflow-init` service to complete successfully.
+
+- **Airflow Worker (`airflow-worker`):**
+  - **Extends:** `x-airflow-common`
+  - **Command:** Starts the Celery worker.
+  - **Healthcheck:** Checks the health of the worker.
+  - **Depends On:** Depends on `airflow-init` service to complete successfully.
+
+- **Airflow Triggerer (`airflow-triggerer`):**
+  - **Extends:** `x-airflow-common`
+  - **Command:** Starts the triggerer.
+  - **Healthcheck:** Checks the health of the triggerer.
+  - **Depends On:** Depends on `airflow-init` service to complete successfully.
+
+- **Airflow Initialization (`airflow-init`):**
+  - **Extends:** `x-airflow-common`
+  - **Entrypoint:** Bash.
+  - **Command:** Initializes directories, adjusts permissions, checks system resources, and runs database migrations.
+  - **Environment:** Additional environment variables for database migration and web user creation.
+
+- **Airflow CLI (`airflow-cli`):**
+  - **Extends:** `x-airflow-common`
+  - **Command:** Provides a command-line interface for debugging and administrative tasks.
+  - **Profiles:** Debug profile.
+
+- **Flower (`flower`):**
+  - **Extends:** `x-airflow-common`
+  - **Command:** Starts the Flower monitoring tool for Celery.
+  - **Ports:** Maps port 5555.
+  - **Healthcheck:** Checks the health of the Flower service.
+  - **Depends On:** Depends on `airflow-init` service to complete successfully.
+  - **Profiles:** Flower profile.
+
+- **postgres-db-volume:** Defines a volume for storing PostgreSQL data.
+
+Execute this command in the base folder (the place with .env and composer file):
 
 ```
 # Append the current user's UID to the .env file for Docker to use
 echo -e "AIRFLOW_UID=$(id -u)" >> .env
 
 # Initialize the Airflow database by running the 'airflow-init' service defined in the Docker Compose file
-docker compose up airflow-init
+docker-compose up airflow-init
 
 # Start all services defined in the Docker Compose file, including the Airflow webserver and scheduler
-docker compose up
+docker-compose up
 
 # The default username and password for Airflow's web UI
 # user: airflow
