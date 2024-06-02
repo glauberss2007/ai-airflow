@@ -100,7 +100,8 @@ cp ../dags/example_dag.py dags/
 airflow standalone
 ```
 
-#### Multi Node
+## Example II - Weather Checker DAG
+### Multi Node
 
 ![image](https://github.com/glauberss2007/ai-airflow/assets/22028539/c9f13339-a812-4336-b228-61288e8acdaf)
 
@@ -189,9 +190,6 @@ docker-compose up
 docker compose down --volumes --remove-orphans
 
 ```
-
-
-## Example II - Weather Checker DAG
 
 ### Key Concepts
 
